@@ -28,12 +28,18 @@ L.TileLayer.Canvas = L.TileLayer.extend({
 	},
 
 	_createTileProto: function () {
-		var proto = this._canvasProto = L.DomUtil.create('canvas', 'leaflet-tile');
-		proto.width = proto.height = this.options.tileSize;
+
 	},
 
 	_createTile: function () {
-		var tile = this._canvasProto.cloneNode(false);
+		var proto;
+
+		if (!this._canvasProto) {
+			proto = this._canvasProto = L.DomUtil.create('canvas', 'leaflet-tile');
+			proto.width = proto.height = this.options.tileSize;
+		}
+
+		var tile = proto.cloneNode(false);
 		tile.onselectstart = tile.onmousemove = L.Util.falseFn;
 		return tile;
 	},
