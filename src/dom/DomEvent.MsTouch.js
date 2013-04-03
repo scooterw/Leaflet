@@ -8,7 +8,7 @@ L.extend(L.DomEvent, {
 	_msDocumentListener: false,
 
 	// Provides a touch events wrapper for msPointer events.
-	// Based on changes by veproza https://github.com/CloudMade/Leaflet/pull/1019
+	// Based on changes by veproza https://github.com/Leaflet/Leaflet/pull/1019
 
 	addMsTouchListener: function (obj, type, handler, id) {
 
