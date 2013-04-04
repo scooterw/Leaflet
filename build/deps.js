@@ -30,8 +30,8 @@ var deps = {
 	},
 
 	TileLayer: {
-		src: ['layer/tile/TileLayer.js'],
-		desc: 'The base class for displaying tile layers on the map.',
+		src: ['layer/tile/GridLayer.js', 'layer/tile/TileLayer.js'],
+		desc: 'The base classes for displaying tile layers on the map.',
 		heading: 'Layers'
 	},
 
@@ -244,7 +244,7 @@ var deps = {
 	},
 
 	AnimationZoom: {
-		src: ['map/anim/Map.ZoomAnimation.js', 'layer/tile/TileLayer.Anim.js'],
+		src: ['map/anim/Map.ZoomAnimation.js'],
 		deps: ['AnimationPan'],
 		desc: 'Smooth zooming animation. Works only on browsers that support CSS3 Transitions.'
 	},

@@ -96,7 +96,7 @@ L.TileLayer = L.GridLayer.extend({
 			y = limit - coords.y - 1;
 		}
 
-		var i = Math.abs(tilePoint.x + tilePoint.y) % options.subdomains.length,
+		var i = Math.abs(coords.x + coords.y) % options.subdomains.length,
 		    s = options.subdomains[i];
 
 		return L.Util.template(this._url, L.extend({

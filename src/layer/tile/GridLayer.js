@@ -57,7 +57,7 @@ L.GridLayer = L.Class.extend({
 		// TODO maxBounds should be intersection of options bounds and earth
 		var bounds = this._tileCoordsToBounds(coords),
 			sw = bounds.getSouthWest(),
-			ne = bounds.getNorthEast()
+			ne = bounds.getNorthEast(),
 
 			maxBounds = this.options.bounds,
 			maxSw = maxBounds.getSouthWest(),
@@ -258,14 +258,16 @@ L.GridLayer = L.Class.extend({
 			}
 		}
 
-		if (!queue.length) { return; }
+		var tilesToLoad = queue.length;
+
+		if (!tilesToLoad) { return; }
 
 		// if its the first batch of tiles to load, fire loading event
 		if (!this._tilesToLoad) {
 			this.fire('loading');
 		}
 
-		this._tilesToLoad += queue.length;
+		this._tilesToLoad += tilesToLoad;
 
 		// sort the queue to load tiles in order of their distance to center
 		queue.sort(function (a, b) {
@@ -289,7 +291,7 @@ L.GridLayer = L.Class.extend({
 
 		var tileSize = this.options.tileSize,
 
-		    nwPoint = tilePoint.multiplyBy(tileSize),
+		    nwPoint = coords.multiplyBy(tileSize),
 		    sePoint = nwPoint.add(new L.Point(tileSize, tileSize)),
 
 		    nw = this._map.unproject(nwPoint),
@@ -321,6 +323,8 @@ L.GridLayer = L.Class.extend({
 	},
 
 	_initTile: function (tile) {
+		var size = this.options.tileSize;
+
 		L.DomUtil.addClass(tile, 'leaflet-tile');
 
 		tile.style.width = size + 'px';
@@ -337,8 +341,7 @@ L.GridLayer = L.Class.extend({
 	_addTile: function (coords, container) {
 		var tilePos = this._getTilePos(coords),
 		    tile = this.createTile(coords),
-		    key = this._tileCoordsToKey(coords),
-		    size = this.options.tileSize;
+		    key = this._tileCoordsToKey(coords);
 
 		/*
 		Chrome 20 layouts much faster with top/left (verify with timeline, frames)
@@ -457,9 +460,9 @@ L.GridLayer = L.Class.extend({
 
 	_prepareBgBuffer: function () {
 		this._swapBgBuffer();
-  	},
+	},
 
-  	_swapBgBuffer: function () {
+	_swapBgBuffer: function () {
 		var front = this._tileContainer,
 		    bg = this._bgBuffer;
 
@@ -470,7 +473,7 @@ L.GridLayer = L.Class.extend({
 		// switch out the current layer to be the new bg layer (and vice-versa)
 		this._tileContainer = bg;
 		this._bgBuffer = front;
-  	}
+	}
 });
 
 L.gridLayer = function (options) {
